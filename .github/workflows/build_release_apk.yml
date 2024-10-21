@@ -20,16 +20,15 @@ jobs:
           cache-encryption-key: Da25KUVSE5jbGds2zXmfXw==
       - name: Build release APK
         run: ./gradlew assembleLawnWithQuickstepGithubRelease bundleLawnWithQuickstepPlayRelease
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Release APK
-          path: build/outputs/apk/lawnWithQuickstepGithub/release/*.apk
-      - name: Publish to Release
+      - name: Generate release tag
+        id: tag
+        run: |
+          echo "::set-output name=$date +"%Y.%m.%d")"
+      - name: Publish to Releases
         uses: softprops/action-gh-release@v2
         with:
-          name: ${{ steps.date.outputs.date }}
+          name: ${{ steps.tag.outputs.release_tag }}
           prerelease: true
           files: build/outputs/apk/lawnWithQuickstepGithub/release/*.apk
-          tag_name: test_tag
+          tag_name: ${{ steps.tag.outputs.release_tag }}
           
