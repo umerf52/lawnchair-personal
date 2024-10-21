@@ -41,4 +41,5 @@ jobs:
           name: ${{ steps.date.outputs.date }}
           prerelease: true
           files: build/outputs/apk/lawnWithQuickstepGithub/release/*.apk
+          tag_name: ${{ steps.date.outputs.date }}
           
