@@ -35,4 +35,10 @@ jobs:
         with:
           name: Release APK
           path: build/outputs/apk/lawnWithQuickstepGithub/release/*.apk
+      - name: Publish to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ steps.date.outputs.date }}
+          prerelease: true
+          files: build/outputs/apk/lawnWithQuickstepGithub/release/*.apk
           
