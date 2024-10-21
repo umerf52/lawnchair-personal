@@ -2,11 +2,13 @@ name: Build release APK
 
 on:
   workflow_dispatch:
+  schedule:
+  - cron: "0 16 * * *" # Every day at 16:00 UTC
 
 jobs:
   build-release-apk:
     runs-on: ubuntu-latest
-    continue-on-error: true
+    continue-on-error: false
     steps:
       - uses: actions/checkout@v4
         with:
