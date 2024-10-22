@@ -14,6 +14,7 @@ jobs:
     continue-on-error: false
     steps:
       - uses: actions/checkout@v4
+        id: checkout
         with:
           repository: LawnchairLauncher/lawnchair
           submodules: true
@@ -59,4 +60,3 @@ jobs:
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
