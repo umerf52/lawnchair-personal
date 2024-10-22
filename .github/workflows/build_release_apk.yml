@@ -20,7 +20,7 @@ jobs:
           submodules: true
       - name: Check latest commit
         run: |
-          if [ cat latest_commit.txt = ${{ steps.checkout.outputs.commit }} ]; then
+          if [ "$(cat latest_commit.txt)" = "${{ steps.checkout.outputs.commit }}" ]; then
             echo "${{ steps.checkout.outputs.commit }} is the latest commit. Exiting."
             gh run cancel ${{ github.run_id }}
             gh run watch ${{ github.run_id }}
