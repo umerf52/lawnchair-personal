@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          repository: LawnchairLauncher/lawnchair
           submodules: true
       - uses: actions/setup-java@v4
         with:
