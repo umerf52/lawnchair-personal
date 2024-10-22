@@ -7,20 +7,21 @@ permissions:
 on:
   workflow_dispatch:
   schedule:
-  - cron: "0 16 * * *" # Every day at 16:00 UTC
+  - cron: "0 16 * * *" # Every day at 14:00 UTC
 
 jobs:
   build-release-apk:
     runs-on: ubuntu-latest
     continue-on-error: false
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout LawnchairLauncher/lawnchair
+        uses: actions/checkout@v4
         id: checkout
         with:
           repository: LawnchairLauncher/lawnchair
           submodules: true
-      - uses: actions/checkout@v4
-        name: Checkout my repository
+      - name: Checkout my repository
+        uses: actions/checkout@v4
         with:
           path: my-repo
       - name: Check latest commit
