@@ -1,5 +1,8 @@
 name: Build release APK
 
+permissions:
+  actions: write
+
 on:
   workflow_dispatch:
   schedule:
@@ -14,6 +17,17 @@ jobs:
         with:
           repository: LawnchairLauncher/lawnchair
           submodules: true
+      - name: Check latest commit
+        run: |
+          if [ cat latest_commit.txt = ${{ steps.checkout.outputs.commit }} ]; then
+            echo "${{ steps.checkout.outputs.commit }} is the latest commit. Exiting."
+            gh run cancel ${{ github.run_id }}
+            gh run watch ${{ github.run_id }}
+          else
+            echo "Running workflow for commit ${{ steps.checkout.outputs.commit }}"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -34,4 +48,15 @@ jobs:
           prerelease: true
           files: build/outputs/apk/lawnWithQuickstepGithub/release/*.apk
           tag_name: ${{ steps.tag.outputs.release_tag }}
+      - name: Update latest commit
+        run: |
+          echo ${{ steps.checkout.outputs.commit }} > latest_commit.txt
+          # https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add latest_commit.txt
+          git commit -m "Update latest_commit.txt to ${{ steps.checkout.outputs.commit }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
