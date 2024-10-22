@@ -20,15 +20,18 @@ jobs:
           submodules: true
       - uses: actions/checkout@v4
         name: Checkout my repository
+        with:
+          path: my-repo
       - name: Check latest commit
         run: |
-          latest_commit=$(cat latest_commit.txt)
+          latest_commit=$(cat my-repo/latest_commit.txt)
           if [ "$latest_commit" = "${{ steps.checkout.outputs.commit }}" ]; then
             echo "${{ steps.checkout.outputs.commit }} is the latest commit. Exiting."
             gh run cancel ${{ github.run_id }}
             gh run watch ${{ github.run_id }}
           else
-            echo "Running workflow for commit ${{ steps.checkout.outputs.commit }}"
+            echo "Running workflow for commit ${{ steps.checkout.outputs.commit }}."
+            echo "Previous commit was $latest_commit."
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -54,6 +57,7 @@ jobs:
           tag_name: ${{ steps.tag.outputs.release_tag }}
       - name: Update latest commit
         run: |
+          cd my-repo
           echo ${{ steps.checkout.outputs.commit }} > latest_commit.txt
           # https://github.com/actions/checkout?tab=readme-ov-file#push-a-commit-using-the-built-in-token
           git config user.name "github-actions[bot]"
