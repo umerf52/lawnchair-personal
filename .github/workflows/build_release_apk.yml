@@ -18,6 +18,8 @@ jobs:
         with:
           repository: LawnchairLauncher/lawnchair
           submodules: true
+      - uses: actions/checkout@v4
+        name: Checkout my repository
       - name: Check latest commit
         run: |
           latest_commit=$(cat latest_commit.txt)
