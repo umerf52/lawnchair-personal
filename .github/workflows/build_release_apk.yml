@@ -21,6 +21,7 @@ jobs:
           repository: LawnchairLauncher/lawnchair
           submodules: true
       - name: Find and Replace versionCode
+        if: false
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "versionCode 14_00_02_03"
