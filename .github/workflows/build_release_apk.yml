@@ -20,6 +20,12 @@ jobs:
         with:
           repository: LawnchairLauncher/lawnchair
           submodules: true
+      - name: Find and Replace versionCode
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "versionCode 14_00_02_03"
+          replace: "versionCode 14_00_02_04"
+          include: "build.gradle"
       - name: Checkout my repository
         uses: actions/checkout@v4
         with:
