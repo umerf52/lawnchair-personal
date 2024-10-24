@@ -1,13 +1,13 @@
 name: Build release APK
 
 permissions:
-  actions: write
-  contents: write
+  actions: write  # Required for the `gh` CLI
+  contents: write  # Required for `softprops/action-gh-release`
 
 on:
   workflow_dispatch:
   schedule:
-  - cron: "0 14 * * *" # Every day at 14:00 UTC
+  - cron: "0 14 * * *"  # Every day at 14:00 UTC
 
 jobs:
   build-release-apk:
@@ -49,8 +49,7 @@ jobs:
         run: ./gradlew assembleLawnWithQuickstepGithubRelease bundleLawnWithQuickstepPlayRelease
       - name: Generate release tag
         id: tag
-        run: |
-          echo "release_tag=$(date +"%Y.%m.%d")" >> $GITHUB_OUTPUT
+        run: echo "release_tag=$(date +"%Y.%m.%d")" >> $GITHUB_OUTPUT
       - name: Publish to Releases
         uses: softprops/action-gh-release@v2
         with:
