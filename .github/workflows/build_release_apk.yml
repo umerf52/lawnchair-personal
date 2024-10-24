@@ -48,7 +48,7 @@ jobs:
         with:
           cache-encryption-key: Da25KUVSE5jbGds2zXmfXw==
       - name: Build release APK
-        run: ./gradlew assembleLawnGithubRelease
+        run: ./gradlew assembleLawnWithQuickstepGithubRelease
       - name: Generate release tag
         id: tag
         run: echo "release_tag=$(date +"%Y.%m.%d")" >> $GITHUB_OUTPUT
@@ -57,7 +57,7 @@ jobs:
         with:
           name: ${{ steps.tag.outputs.release_tag }}
           prerelease: true
-          files: build/outputs/apk/lawnGithub/release/*.apk
+          files: build/outputs/apk/lawnWithQuickstepGithub/release/*.apk
           tag_name: ${{ steps.tag.outputs.release_tag }}
           body: Built using commit ${{ steps.checkout.outputs.commit }}.
       - name: Update latest commit
