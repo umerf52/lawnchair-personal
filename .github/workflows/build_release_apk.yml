@@ -61,6 +61,8 @@ jobs:
           tag_name: ${{ steps.tag.outputs.release_tag }}
           body: Built using commit ${{ steps.checkout.outputs.commit }}.
       - name: Update latest commit
+        # Temporarily disabled
+        if: false
         run: |
           cd my-repo
           echo ${{ steps.checkout.outputs.commit }} > latest_commit.txt
