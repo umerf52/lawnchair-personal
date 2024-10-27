@@ -26,6 +26,20 @@ jobs:
           find: "versionCode 14_00_02_03"
           replace: "versionCode 14_00_02_04"
           include: "build.gradle"
+      - name: Find and Replace try block
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "storePassword keystoreProperties['storePassword']"
+          replace: "storePassword keystoreProperties['storePassword']\nprintln 'used Release keystore'\nlogger.error('used Release keystore')"
+          include: "build.gradle"
+      - name: Find and Replace except block
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "releaseSigning = signingConfigs.debug"
+          replace: "releaseSigning = signingConfigs.debug\nprintln 'used debug. ${ignored.message}' \nlogger.error('used debug. ${ignored.message}')"
+          include: "build.gradle"
+      - name: cat build.gradle
+        run: cat build.gradle
       - name: Checkout my repository
         uses: actions/checkout@v4
         with:
