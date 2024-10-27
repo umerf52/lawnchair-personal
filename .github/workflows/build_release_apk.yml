@@ -46,7 +46,7 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "releaseSigning = signingConfigs.debug"
-          replace: "releaseSigning = signingConfigs.debug\nprintln 'used debug. ${ignored.message}' \nlogger.error('used debug. ${ignored.message}')"
+          replace: 'releaseSigning = signingConfigs.debug\nprintln "used debug. ${ignored.message}" \nignored.printStackTrace() \nlogger.error("used debug. ${ignored.message}", ignored)'
           include: "build.gradle"
       - name: cat build.gradle
         run: cat build.gradle
