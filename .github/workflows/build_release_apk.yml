@@ -29,6 +29,7 @@ jobs:
             echo keyPassword='${{ secrets.KEY_PASSWORD }}' >> keystore.properties
             echo storeFile='${{ github.workspace }}/key.jks' >> keystore.properties
             echo ${{ secrets.KEYSTORE }} | base64 --decode > ${{ github.workspace }}/key.jks
+            echo "Keystore file created"
           fi
       - name: Find and Replace versionCode
         uses: jacobtomlinson/gha-find-replace@v3
