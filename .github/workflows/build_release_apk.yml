@@ -24,6 +24,7 @@ jobs:
         if: github.repository_owner == 'umerf52'
         run: |
           if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
+            touch keystore.properties
             echo storePassword='${{ secrets.KEYSTORE_PASSWORD }}' >> keystore.properties
             echo keyAlias='${{ secrets.KEY_ALIAS }}' >> keystore.properties
             echo keyPassword='${{ secrets.KEY_PASSWORD }}' >> keystore.properties
@@ -80,6 +81,7 @@ jobs:
       - name: Build release APK
         run: ./gradlew assembleLawnWithQuickstepGithubRelease
       - name: Generate release tag
+        if: github.event_name != 'workflow_dispatch'
         id: tag
         run: echo "release_tag=$(date +"%Y.%m.%d")" >> $GITHUB_OUTPUT
       - name: Publish to Releases
